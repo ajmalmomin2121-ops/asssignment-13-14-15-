@@ -1,0 +1,47 @@
+import gc
+import sys
+
+gc.disable()
+print("Garbage collection is enabled:", gc.isenabled())
+
+class Node:
+    def __init__(self, name):
+        self.name = name
+        self.peer = None
+
+def create_cycle():
+    node1 = Node("NodeA")
+    node2 = Node("NodeB")
+    node1.peer = node2
+    node2.peer = node1
+
+print("\n--- Creating reference cycle ---")
+create_cycle()
+
+print("Uncollected objects count before manual GC:", len(gc.garbage))
+
+print("\n--- Forcing manual garbage collection ---")
+collected_count = gc.collect()
+print(f"Objects collected manually: {collected_count}")
+
+print("\n--- Garbage Collector Thresholds ---")
+print("Current thresholds (Gen 0, Gen 1, Gen 2):", gc.get_threshold())
+
+gc.enable()
+print("Garbage collection is enabled again:", gc.isenabled())v
+
+output---------------------------------------------------------------------------------------------
+
+
+Garbage collection is enabled: False
+
+--- Creating reference cycle ---
+Uncollected objects count before manual GC: 0
+
+--- Forcing manual garbage collection ---
+Objects collected manually: 2
+
+--- Garbage Collector Thresholds ---
+Current thresholds (Gen 0, Gen 1, Gen 2): (700, 10, 10)
+
+Garbage collection is enabled again: True
