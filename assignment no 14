@@ -1,0 +1,39 @@
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='app.log',
+    filemode='w'
+)
+
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(levelname)s: %(message)s')
+console_handler.setFormatter(formatter)
+logging.getLogger().addHandler(console_handler)
+
+logging.debug("This is a debug message for detailed diagnostic info.")
+logging.info("This is an info message confirming things are working as expected.")
+logging.warning("This is a warning message indicating a potential future issue.")
+logging.error("This is an error message showing a failure in a specific function.")
+logging.critical("This is a critical message indicating a severe system failure.")
+
+try:
+    result = 10 / 0
+except ZeroDivisionError as e:
+    logging.exception("An exception occurred during division:")
+
+
+
+
+output-----------------------------------------------------------------------------------
+INFO: This is an info message confirming things are working as expected.
+WARNING: This is a warning message indicating a potential future issue.
+ERROR: This is an error message showing a failure in a specific function.
+CRITICAL: This is a critical message indicating a severe system failure.
+ERROR: An exception occurred during division:
+Traceback (most recent call last):
+  File "script.py", line 18, in <module>
+    result = 10 / 0
+ZeroDivisionError: division by zero
